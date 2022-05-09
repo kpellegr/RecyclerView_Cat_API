@@ -1,5 +1,6 @@
 package com.example.recyclerviewjsonexample;
 
+import static com.example.recyclerviewjsonexample.MainActivity.EXTRA_CAT_ID;
 import static com.example.recyclerviewjsonexample.MainActivity.EXTRA_CREATOR;
 import static com.example.recyclerviewjsonexample.MainActivity.EXTRA_LIKES;
 import static com.example.recyclerviewjsonexample.MainActivity.EXTRA_URL;
@@ -23,9 +24,14 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
-        String imageUrl = intent.getStringExtra(EXTRA_URL);
-        String creatorName = intent.getStringExtra(EXTRA_CREATOR);
-        int likeCount = intent.getIntExtra(EXTRA_LIKES, 0);
+        //String imageUrl = intent.getStringExtra(EXTRA_URL);
+        //String creatorName = intent.getStringExtra(EXTRA_CREATOR);
+        //int likeCount = intent.getIntExtra(EXTRA_LIKES, 0);
+        int catID = intent.getIntExtra(MainActivity.EXTRA_CAT_ID, 0);
+
+        String imageUrl = MainActivity.mExampleList.get(catID).getImageUrl();
+        String creatorName = MainActivity.mExampleList.get(catID).getCreator();
+        int likeCount = MainActivity.mExampleList.get(catID).getLikeCount();
 
         ImageView imageView = findViewById(R.id.image_view_detail);
         TextView textViewCreator = findViewById(R.id.text_view_creator_detail);

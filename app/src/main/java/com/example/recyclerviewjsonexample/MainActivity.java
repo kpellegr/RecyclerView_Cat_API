@@ -25,10 +25,11 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
     public static final String EXTRA_URL = "imageUrl";
     public static final String EXTRA_CREATOR = "creatorName";
     public static final String EXTRA_LIKES = "likeCount";
+    public static final String EXTRA_CAT_ID = "catID";
 
     private RecyclerView mRecyclerView;
     private ExampleAdapter mExampleAdapter;
-    private ArrayList<ExampleItem> mExampleList;
+    public static ArrayList<ExampleItem> mExampleList;
     private RequestQueue mRequestQueue;
 
     @Override
@@ -93,9 +94,27 @@ public class MainActivity extends AppCompatActivity implements ExampleAdapter.On
         Intent detailIntent = new Intent(this, DetailActivity.class);
         ExampleItem clickedItem = mExampleList.get(position);
 
-        detailIntent.putExtra(EXTRA_URL, clickedItem.getImageUrl());
-        detailIntent.putExtra(EXTRA_CREATOR, clickedItem.getCreator());
-        detailIntent.putExtra(EXTRA_LIKES, clickedItem.getLikeCount());
+        // Er zijn drie opties om de cat-details naar de DetailActivity te krijgen:
+        // 1: alle nodige details één voor één in als EXTRA in de Intent stoppen
+        //    Dit was de originele code van Sarah en staat hieronder in comments
+        // 2: De Array met katten ergens "publiek" beschikbaar maken en enkel de index van
+        //    de gewenste kat in de Intent te steken.
+        //    We doen dit in dit voorbeeld door hem public te zetten in MainActivity en dan
+        //    vanuit DetailActivity de kat op te zoeken in de Array.
+        //    In een "echt" project zou je hier een ViewModel voor gebruiken.
+        // 3. Je kan de kat ook als object in de rugzak steken, maar daarvoor moet je
+        //    de "Serializable" interface implementeren, zodat Android weet hoe het een hele
+        //    kan in een zak kan krijgen (en er weer uit)...
+        //    Dat voorbeeld werken we hier niet uit.
+
+
+        // Stop alle onderdelen van de kat apart in een zak
+        // detailIntent.putExtra(EXTRA_URL, clickedItem.getImageUrl());
+        // detailIntent.putExtra(EXTRA_CREATOR, clickedItem.getCreator());
+        // detailIntent.putExtra(EXTRA_LIKES, clickedItem.getLikeCount());
+
+        // Stop alleen het nummer van de kat in de zak
+        detailIntent.putExtra(EXTRA_CAT_ID, position);
 
         startActivity(detailIntent);
     }
